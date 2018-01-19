@@ -172,11 +172,11 @@ if __name__ == '__main__' :
     s_shot = screenshot()
     s_shot.check_screenshot()
     results = []
-    
+    quizType =1
     while True:
         time.sleep(0.5)    
         s_shot.pull_screenshot()
-        img = cv2.imread('D:\\dev\\million\\autojump.png',0)
+        img = cv2.imread('./autojump.png',0)
         
 #        img = Image.open('autojump.png').convert('L')
         hist_cv = np.bincount(img.ravel(),minlength=256)
@@ -195,13 +195,18 @@ if __name__ == '__main__' :
             ready go!!!!
             '''
             )
-    
-#            q = img[320:1130,45:1035].copy()#
+            
             start = time.time()
-#            q = img[285:1230,45:1035].copy()
-            q = img[330:1230,80:990].copy()#uc
-#            q = img[290:1130,45:1035].copy()#zhishichaoren
-    #        q = img[280:1130,45:1035].copy()#chongdingdahui
+            if quizType ==1:
+                q = img[360:1150,45:1035].copy()#dabai
+            elif quizType ==2:
+                q = img[285:1230,45:1035].copy()
+            elif quizType == 3:
+                q = img[330:1230,80:990].copy()#uc
+            elif quizType ==4:
+                q = img[290:1130,45:1035].copy()#zhishichaoren
+            else:
+                q = img[280:1130,45:1035].copy()#chongdingdahui
             _,q = cv2.threshold(q,210,255,cv2.THRESH_BINARY) 
 #            q = lw(q)
             q = Image.fromarray(q)  
@@ -209,8 +214,8 @@ if __name__ == '__main__' :
             q = q.resize((int(x*0.3),int(y*0.3)),Image.ANTIALIAS)
             fq = BytesIO()
             q.save(fq, format='PNG')
-#            b = get_text_from_image(fq.getvalue())
-            b = None
+            b = get_text_from_image(fq.getvalue())
+#            b = None
             if not b:
                 print("text not recognize")
                 
