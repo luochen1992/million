@@ -198,7 +198,8 @@ if __name__ == '__main__' :
     
 #            q = img[320:1130,45:1035].copy()#
             start = time.time()
-            q = img[285:1230,45:1035].copy()
+#            q = img[285:1230,45:1035].copy()
+            q = img[330:1230,80:990].copy()#uc
 #            q = img[290:1130,45:1035].copy()#zhishichaoren
     #        q = img[280:1130,45:1035].copy()#chongdingdahui
             _,q = cv2.threshold(q,210,255,cv2.THRESH_BINARY) 
@@ -208,11 +209,14 @@ if __name__ == '__main__' :
             q = q.resize((int(x*0.3),int(y*0.3)),Image.ANTIALIAS)
             fq = BytesIO()
             q.save(fq, format='PNG')
-            b = get_text_from_image(fq.getvalue())
+#            b = get_text_from_image(fq.getvalue())
+            b = None
             if not b:
                 print("text not recognize")
-                break
-            true_flag, real_q, q, a = parse_question_and_answer(b)
+                
+                q,a = local_ocr(q)
+            else:
+                true_flag, real_q, q, a = parse_question_and_answer(b)
             tem = ' '.join(a)
             tem = tem.replace('\n','')
             red = url+q  

@@ -32,7 +32,7 @@ def get_text_from_image(image_dat, api_version=0, timeout=3):
 
 def local_ocr(img):
     text=pytesseract.image_to_string(img,lang='chi_sim' )  
-    text = img.replace(' ','')
+    text = text.replace(' ','')
     Q_pat = re.compile('\.(.*?)\n\n',re.DOTALL)
     A_pat = re.compile('\n\n(.*?)\n\n(.*?)\n\n(.*)',re.DOTALL)
     a = []
