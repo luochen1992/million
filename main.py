@@ -137,7 +137,7 @@ def searchzhidao(url,a):
         text+=elem.text+'\n\n'
         
     text = ''.join(text)
-#    print(text)
+
     return text
     for elem in a:
         print(elem+' : {}'.format(text.count(elem)))
