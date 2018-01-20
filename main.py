@@ -139,8 +139,7 @@ def searchzhidao(url,a):
     text = ''.join(text)
 
     return text
-    for elem in a:
-        print(elem+' : {}'.format(text.count(elem)))
+
 
 
 
@@ -166,18 +165,25 @@ def parse_question_and_answer(text_list):
 
 
 if __name__ == '__main__' :
-    multiprocessing.freeze_support() 
+#    multiprocessing.freeze_support() 
+    #jieba_initialize()
     list_t = []
-#    jieba_initialize()
+    
+
     s_shot = screenshot()
     s_shot.check_screenshot()
     results = []
-    quizType =1
+    quizType = input('''please input quiz type:
+        1:dabai
+        2:xigua
+        3:uc
+        4:zhishichaoren
+        5:chongdingdahui
+        ''')
     while True:
         time.sleep(0.5)    
         s_shot.pull_screenshot()
-        img = cv2.imread('./autojump.png',0)
-        
+        img = cv2.imread('./autojump.png',0)    
 #        img = Image.open('autojump.png').convert('L')
         hist_cv = np.bincount(img.ravel(),minlength=256)
         #hist_cv = cv2.calcHist([img],[0],None,[256],[0,256])
@@ -194,8 +200,7 @@ if __name__ == '__main__' :
             
             ready go!!!!
             '''
-            )
-            
+            )            
             start = time.time()
             if quizType ==1:
                 q = img[360:1150,45:1035].copy()#dabai
@@ -232,12 +237,26 @@ if __name__ == '__main__' :
             t2 = MyThread(search,args=(red,))
             t3 = MyThread(searchzhidao,args=(zed,a,))
             list_t = [t1,t2,t3]
+            
+            text = []
+            
             for t in list_t:
                 t.start()
             for t in list_t:
                 t.join()
                 print(t.get_result())
-           
+                text.append(t.get_result())
+            text = '\n'.join(text)
+            ##highlight keywords
+            for elem in a:
+                text = text.split(elem)
+                _split_ = '\033[1;31;47m'+elem+'\033[0m' 
+                text = _split_.join(text)
+            print(text)
+            ##count answers
+            for elem in a:
+                print(elem+' : {}'.format(text.count(elem)))
+#           
 #            ans = kwquery(real_q)
 #            print("~~~~~~~")
 #            for a in ans:
