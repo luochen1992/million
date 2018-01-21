@@ -16,9 +16,9 @@ def get_text_from_image(image_dat, api_version=0, timeout=3):
       'language_type': 'CHN_ENG',  
     }      
         
-    APP_ID = '10673219'  
-    API_KEY = 'p2jshxcHhyzDrqRBQrns9qy0'  
-    SECRET_KEY = 'BO0LTCsCq1fB3zC1D9IdVZmBr9wfoRVe'
+    APP_ID = '106732119'  
+    API_KEY = 'p2jshxcH1hyzDrqRBQrns9qy0'  
+    SECRET_KEY = 'BO0LTCsCq1fB3zdsdVZmBr9wfoRVe'
     client = AipOcr(APP_ID, API_KEY, SECRET_KEY) 
     client.setConnectionTimeoutInMillis(timeout * 1000)
     if api_version == 1:

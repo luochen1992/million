@@ -29,7 +29,9 @@ from terminaltables import AsciiTable
 import threading
 
 class MyThread(threading.Thread):
-
+    '''
+    my thread could return results of thread
+    '''
     def __init__(self,func,args=()):
         super(MyThread,self).__init__()
         self.func = func
@@ -43,11 +45,6 @@ class MyThread(threading.Thread):
             return self.result  # 如果子线程不使用join方法，此处可能会报没有self.result的错误
         except Exception:
             return None
-
-
-
-
-# SCREENSHOT_WAY 是截图方法，经过 check_screenshot 后，会自动递减，不需手动修改
 
 
 url = 'http://www.baidu.com/s?wd='
@@ -70,10 +67,7 @@ def seg_sentence(sentence):
                 outstr += word  
                 outstr += " "  
     return outstr  
-
-
-
-        
+  
 def lw(q):
     temp = np.sum(q,axis=1)
     max_pix = temp[0]
@@ -102,8 +96,6 @@ def get_file_content(filePath):
     with open(filePath, 'rb') as fp:  
         return fp.read()
     
-
-
 def search(url):
     text = []
     r = requests.get(url,headers=headers)
@@ -140,12 +132,6 @@ def searchzhidao(url,a):
 
     return text
 
-
-
-
-
-
-
 def parse_question_and_answer(text_list):
     question = ""
     start = 0
@@ -180,8 +166,10 @@ if __name__ == '__main__' :
         4:zhishichaoren
         5:chongdingdahui
         ''')
+    quizType = int(quizType)
     while True:
-        time.sleep(0.5)    
+#        time.sleep(0.5)  
+        start = time.time()
         s_shot.pull_screenshot()
         img = cv2.imread('./autojump.png',0)    
 #        img = Image.open('autojump.png').convert('L')
@@ -192,7 +180,6 @@ if __name__ == '__main__' :
     
         if sum(hist_cv[250:])>5e5:
             
-            
             a = []
         #    cv2.waitKey(0)
         #    cv2.destroyAllWindows()
@@ -201,11 +188,11 @@ if __name__ == '__main__' :
             ready go!!!!
             '''
             )            
-            start = time.time()
+            
             if quizType ==1:
                 q = img[360:1150,45:1035].copy()#dabai
             elif quizType ==2:
-                q = img[285:1230,45:1035].copy()
+                q = img[285:1240,45:1035].copy()
             elif quizType == 3:
                 q = img[330:1230,80:990].copy()#uc
             elif quizType ==4:
@@ -221,12 +208,23 @@ if __name__ == '__main__' :
             q.save(fq, format='PNG')
             b = get_text_from_image(fq.getvalue())
 #            b = None
+            #recognize
             if not b:
                 print("text not recognize")
                 
                 q,a = local_ocr(q)
             else:
-                true_flag, real_q, q, a = parse_question_and_answer(b)
+                true_flag, real_q, q, a = parse_question_and_answer(b)         
+            if quizType in [1,3]:     
+                for char, repl in [("A.", ""), ("B.", ""),("A:", ""), ("B:", ""),
+                                   ("A:", ""), ("B:", ""),("C.", ""), ("C:", ""),
+                                   ("A", ""),("B", ""), ("C", "")]:
+                    for i,elem in enumerate(a):
+                         elem = elem.replace(char, repl, 1)
+                         a[i] = elem
+            if quizType == 1:
+                q = q[3:]
+                
             tem = ' '.join(a)
             tem = tem.replace('\n','')
             red = url+q  
@@ -250,7 +248,7 @@ if __name__ == '__main__' :
             ##highlight keywords
             for elem in a:
                 text = text.split(elem)
-                _split_ = '\033[1;31;47m'+elem+'\033[0m' 
+                _split_ = '\033[1;31;47m '+elem+'\033[0m ' 
                 text = _split_.join(text)
             print(text)
             ##count answers
