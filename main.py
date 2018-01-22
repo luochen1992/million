@@ -207,6 +207,7 @@ if __name__ == '__main__' :
             q = Image.fromarray(q)  
             (x,y) = q.size
             q = q.resize((int(x*0.3),int(y*0.3)),Image.ANTIALIAS)
+            
             fq = BytesIO()
             q.save(fq, format='PNG')
             b = get_text_from_image(fq.getvalue())
@@ -221,7 +222,7 @@ if __name__ == '__main__' :
             if quizType in [1,3,5]:     
                 for char, repl in [("A.", ""), ("B.", ""),("A:", ""), ("B:", ""),
                                    ("A:", ""), ("B:", ""),("C.", ""), ("C:", ""),
-                                   ("A", ""),("B", ""), ("C", "")]:
+                                   ("A", ""),("B", ""), ("C", ""), ("c:", "")]:
                     for i,elem in enumerate(a):
                          elem = elem.replace(char, repl, 1)
                          a[i] = elem
