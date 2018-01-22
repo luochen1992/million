@@ -164,7 +164,8 @@ if __name__ == '__main__' :
         2:xigua
         3:uc
         4:zhishichaoren
-        5:chongdingdahui
+        5:wangyi
+        6:chongdingdahui
         ''')
     quizType = int(quizType)
     while True:
@@ -197,6 +198,8 @@ if __name__ == '__main__' :
                 q = img[330:1230,80:990].copy()#uc
             elif quizType ==4:
                 q = img[290:1130,45:1035].copy()#zhishichaoren
+            elif quizType ==5:
+                q = img[400:1300,45:1035].copy()#wangyi
             else:
                 q = img[280:1130,45:1035].copy()#chongdingdahui
             _,q = cv2.threshold(q,210,255,cv2.THRESH_BINARY) 
@@ -215,7 +218,7 @@ if __name__ == '__main__' :
                 q,a = local_ocr(q)
             else:
                 true_flag, real_q, q, a = parse_question_and_answer(b)         
-            if quizType in [1,3]:     
+            if quizType in [1,3,5]:     
                 for char, repl in [("A.", ""), ("B.", ""),("A:", ""), ("B:", ""),
                                    ("A:", ""), ("B:", ""),("C.", ""), ("C:", ""),
                                    ("A", ""),("B", ""), ("C", "")]:
