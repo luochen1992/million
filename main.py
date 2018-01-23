@@ -158,6 +158,7 @@ if __name__ == '__main__' :
 
     s_shot = screenshot()
     s_shot.check_screenshot()
+    s_shot.check_screenshot()
     results = []
     quizType = input('''please input quiz type:
         1:dabai
@@ -252,7 +253,7 @@ if __name__ == '__main__' :
             ##highlight keywords
             for elem in a:
                 text = text.split(elem)
-                _split_ = '\033[1;31;47m '+elem+'\033[0m ' 
+                _split_ = '\033[1;31;4m '+elem+'\033[0m ' 
                 text = _split_.join(text)
             print(text)
             ##count answers
